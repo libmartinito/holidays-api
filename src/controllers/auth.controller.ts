@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express"
-import { SignUpData } from "@/interfaces/auth.interface"
+import { SignUpData, LogInData } from "@/interfaces/auth.interface"
 import { User } from '@prisma/client'
 import AuthService from '@services/auth.service'
 
@@ -12,6 +12,18 @@ class AuthController {
       const signedUpUserData: User = await this.authService.signUp(userData)
 
       res.status(200).send(signedUpUserData)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  public logIn = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userData: LogInData = req.body
+      const { user, cookie } = await this.authService.logIn(userData)
+
+      res.setHeader('Set-Cookie', [cookie])
+      res.status(200).send(user)
     } catch (error) {
       next(error)
     }
