@@ -1,7 +1,7 @@
 import { PrismaClient, User } from '@prisma/client'
 import { SignUpData, LogInData, TokenData, DataStoredInToken } from '@/interfaces/auth.interface'
 import { HttpException } from '@/exceptions/HttpException'
-import { hash } from 'bcrypt'
+import { hash, compare } from 'bcrypt'
 import { SECRET_KEY } from '@/config'
 import { sign } from 'jsonwebtoken'
 
@@ -25,6 +25,9 @@ class AuthService {
 
     const user: User | null = await this.users.findUnique({ where: { email: userData.email } })
     if (!user) throw new HttpException(400, `This email ${userData.email} was not found`)
+
+    const isPasswordMatching: boolean = await compare(userData.password, user.password)
+    if (!isPasswordMatching) throw new HttpException(400, "Password does not match email.")
 
     const tokenData = this.createToken(user)
     const cookie = this.createCookie(tokenData)
