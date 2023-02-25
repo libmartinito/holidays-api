@@ -9,9 +9,9 @@ class AuthController {
   public signUp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const userData: SignUpData = req.body
-      const signedUpUserData: User = await this.authService.signUp(userData)
+      const user: User = await this.authService.signUp(userData)
 
-      res.status(200).send(signedUpUserData)
+      res.status(200).send(user)
     } catch (error) {
       next(error)
     }
