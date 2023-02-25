@@ -1,5 +1,5 @@
 import { PrismaClient, User } from '@prisma/client'
-import { SignUpData } from '@/interfaces/auth.interfaces'
+import { SignUpData } from '@/interfaces/auth.interface'
 import { HttpException } from '@/exceptions/HttpException'
 import { hash } from 'bcrypt'
 
