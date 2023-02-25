@@ -2,8 +2,8 @@ import { body, ValidationChain } from 'express-validator'
 
 export const signupValidationRules = (): ValidationChain[] => {
   return [
-    body('email').exists().isEmail().normalizeEmail(),
-    body('password').exists().isString(),
+    body('email').exists().bail().isEmail().normalizeEmail(),
+    body('password').exists().bail().isString(),
     body('role').exists().custom((value) => value === 'ADMIN' || 'SUBSCRIBER')
   ]
 }

@@ -24,7 +24,7 @@ class AuthService {
     if (!userData) throw new HttpException(400, "User data is empty.")
 
     const user: User | null = await this.users.findUnique({ where: { email: userData.email } })
-    if (!user) throw new HttpException(400, `This email ${userData.email} was not found`)
+    if (!user) throw new HttpException(400, `This email ${userData.email} was not found.`)
 
     const isPasswordMatching: boolean = await compare(userData.password, user.password)
     if (!isPasswordMatching) throw new HttpException(400, "Password does not match email.")

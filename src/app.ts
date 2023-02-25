@@ -26,6 +26,10 @@ class App {
     })
   }
 
+  public getServer() {
+    return this.app
+  }
+
   private initializeMiddlewares() {
     this.app.use(compression())
     this.app.use(express.json())
