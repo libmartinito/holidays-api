@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "npm run build node dist/server.js",
+    "dev": "nodemon",
+    "build": "tsc && tsc-alias",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
     "lint:fix": "npm run lint -- --fix"
@@ -42,6 +45,7 @@
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "jsonwebtoken": "^9.0.0",
+    "nodemon": "^2.0.20",
     "prettier": "^2.8.4",
     "prisma": "^4.10.1",
     "ts-node": "^10.9.1",
