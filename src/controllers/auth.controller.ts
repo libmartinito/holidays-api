@@ -11,7 +11,7 @@ class AuthController {
       const userData: SignUpData = req.body
       const user: User = await this.authService.signUp(userData)
 
-      res.status(200).send(user)
+      res.status(200).json(user)
     } catch (error) {
       next(error)
     }
@@ -23,7 +23,7 @@ class AuthController {
       const { user, cookie } = await this.authService.logIn(userData)
 
       res.setHeader('Set-Cookie', [cookie])
-      res.status(200).send(user)
+      res.status(200).json(user)
     } catch (error) {
       next(error)
     }
