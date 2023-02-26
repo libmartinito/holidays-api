@@ -4,7 +4,6 @@ import Holidays from 'date-holidays'
 import { PrismaClient, Holiday, User } from '@prisma/client'
 
 class HolidayService {
-  public users = new PrismaClient().user
   public holidays = new PrismaClient().holiday
 
   public listHolidays(country: string, limit: number, page: number): PaginatedHolidayList {
@@ -48,12 +47,12 @@ class HolidayService {
 
   public async saveHoliday(user: User, holidayData: HolidayData): Promise<Holiday> {
     if (!holidayData) throw new HttpException(400, "Holiday data is empty")
-    
+
     const isAuthorized = this.isAuthorized(user, holidayData.user_id)
-    if (!isAuthorized) throw new HttpException(403, "Access is forbidden")
+    if (!isAuthorized) throw new HttpException(403, "Access is forbidden.")
 
     const holiday: Holiday | null = await this.holidays.findFirst({ where: { user_id: holidayData.user_id, country: holidayData.country, holiday_id: holidayData.holiday_id } })
-    if (holiday) throw new HttpException(400, "The holiday is already saved for user.")
+    if (holiday) throw new HttpException(400, "The holiday is already saved for the user.")
 
     const savedHoliday: Holiday = await this.holidays.create({ data: { ...holidayData } })
 
@@ -64,10 +63,13 @@ class HolidayService {
     if (!holidayData) throw new HttpException(400, "Holiday data is empty")
 
     const isAuthorized = this.isAuthorized(user, holidayData.user_id)
-    if (!isAuthorized) throw new HttpException(403, "Access is forbidden")
+    if (!isAuthorized) throw new HttpException(403, "Access is forbidden.")
+
+    const holiday: Holiday | null = await this.holidays.findFirst({ where: { user_id: holidayData.user_id, country: holidayData.country, holiday_id: holidayData.holiday_id } })
+    if (!holiday) throw new HttpException(400, "Holiday already does not exist for user.")
 
     const { count } = await this.holidays.deleteMany({ where: { user_id: holidayData.user_id, country: holidayData.country, holiday_id: holidayData.holiday_id } })
-    
+
     return count
   }
 
