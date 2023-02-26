@@ -1,10 +1,7 @@
 import { HolidayResult, PaginatedHolidayList, HolidayData } from '@interfaces/holiday.interface'
 import { HttpException } from '@/exceptions/HttpException'
 import Holidays from 'date-holidays'
-import { PrismaClient, Holiday } from '@prisma/client'
-import { SECRET_KEY } from '@/config'
-import { verify } from 'jsonwebtoken'
-import { DataStoredInToken } from '@/interfaces/auth.interface'
+import { PrismaClient, Holiday, User } from '@prisma/client'
 
 class HolidayService {
   public users = new PrismaClient().user
@@ -49,10 +46,10 @@ class HolidayService {
     return holiday
   }
 
-  public async saveHoliday(authorization: string, holidayData: HolidayData): Promise<Holiday> {
+  public async saveHoliday(user: User, holidayData: HolidayData): Promise<Holiday> {
     if (!holidayData) throw new HttpException(400, "Holiday data is empty")
     
-    const isAuthorized = await this.isAuthorized(authorization, holidayData.user_id)
+    const isAuthorized = this.isAuthorized(user, holidayData.user_id)
     if (!isAuthorized) throw new HttpException(403, "Access is forbidden")
 
     const holiday: Holiday | null = await this.holidays.findFirst({ where: { user_id: holidayData.user_id, country: holidayData.country, holiday_id: holidayData.holiday_id } })
@@ -63,10 +60,10 @@ class HolidayService {
     return savedHoliday
   }
 
-  public async unsaveHoliday(authorization: string, holidayData: HolidayData): Promise<number> {
+  public async unsaveHoliday(user: User, holidayData: HolidayData): Promise<number> {
     if (!holidayData) throw new HttpException(400, "Holiday data is empty")
 
-    const isAuthorized = await this.isAuthorized(authorization, holidayData.user_id)
+    const isAuthorized = this.isAuthorized(user, holidayData.user_id)
     if (!isAuthorized) throw new HttpException(403, "Access is forbidden")
 
     const { count } = await this.holidays.deleteMany({ where: { user_id: holidayData.user_id, country: holidayData.country, holiday_id: holidayData.holiday_id } })
@@ -74,16 +71,9 @@ class HolidayService {
     return count
   }
 
-  public async isAuthorized(authorization: string, userId: number): Promise<boolean> {
-    const secretKey: string = SECRET_KEY as string
-    const verificationResult = verify(authorization, secretKey) as DataStoredInToken
-
-    const authUserId = verificationResult.id
-    const authRoleData = await this.users.findUnique({ where: { id: authUserId }, select: { role: true } })
-
-    if (!authRoleData) throw new HttpException(400, "User does not exist in database.")
-    if (authRoleData.role === 'ADMIN') return true
-    if (authRoleData.role === 'SUBSCRIBER' && authUserId !== userId) return false
+  public isAuthorized(user: User, userId: number): boolean {
+    if (user.role === 'ADMIN') return true
+    if (user.role === 'SUBSCRIBER' && user.id !== userId) return false
     return true
   }
 }

@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express"
 import HolidayService from "@/services/holiday.service"
 import { HolidayData } from "@/interfaces/holiday.interface"
 import { HttpException } from "@/exceptions/HttpException"
+import { User } from "@prisma/client"
 
 class HolidayController {
   public holidayService = new HolidayService()
@@ -35,10 +36,10 @@ class HolidayController {
 
   public saveHoliday = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const authorization = req.cookies?.authorization || (req.header('authorization') ? req.header('authorization')?.split('Bearer ')[1] : null)
+      const user: User = res.locals.user
       const holidayData: HolidayData = req.body
 
-      const savedHoliday = await this.holidayService.saveHoliday(authorization, holidayData)
+      const savedHoliday = await this.holidayService.saveHoliday(user, holidayData)
 
       res.status(200).json(savedHoliday)
     } catch (error) {
@@ -48,11 +49,10 @@ class HolidayController {
 
   public unsaveHoliday = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+      const user: User = res.locals.user
       const holidayData: HolidayData = req.body
-      const authorization = (req.header('cookie') ? req.header('cookie')?.split('Authorization=')[1] : null) || (req.header('authorization') ? req.header('authorization')?.split('Bearer ')[1] : null)
-      if (!authorization) throw new HttpException(401, 'User is not authenticated. Please register or login.')
 
-      const count = await this.holidayService.unsaveHoliday(authorization, holidayData)
+      const count = await this.holidayService.unsaveHoliday(user, holidayData)
 
       res.status(200).json({ message: `${count} entry deleted.` })
     } catch (error) {
