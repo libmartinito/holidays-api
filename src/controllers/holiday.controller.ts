@@ -17,6 +17,19 @@ class HolidayController {
       next(error)
     }
   }
+
+  public showHoliday = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const country = String(req.params.country)
+      const holidayId = String(req.params.holiday_id)
+
+      const holiday = await this.holidayService.showHoliday(country, holidayId)
+
+      res.status(200).json(holiday)
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 export default HolidayController

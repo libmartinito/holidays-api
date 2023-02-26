@@ -13,6 +13,7 @@ class HolidayRoute implements Routes {
 
   private initializeRoutes() {
     this.router.get(`${this.path}holidays/:country`, this.holidayController.listHolidays)
+    this.router.get(`${this.path}holidays/:country/:holiday_id`, this.holidayController.showHoliday)
   }
 }
 

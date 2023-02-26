@@ -31,6 +31,16 @@ class HolidayService {
 
     return results
   }
+
+  public async showHoliday(country: string, holidayId: string): Promise<Holiday> {
+    const hd = new Holidays(country)
+    const holidayList: Holiday[] = hd.getHolidays()
+
+    const holiday = holidayList.find(holiday => holiday.date.includes(holidayId))
+    if (!holiday) throw new HttpException(404, "The resource is not available.")
+
+    return holiday
+  }
 }
 
 export default HolidayService
