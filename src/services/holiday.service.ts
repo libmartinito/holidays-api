@@ -10,7 +10,7 @@ class HolidayService {
   public users = new PrismaClient().user
   public holidays = new PrismaClient().holiday
 
-  public async listHolidays(country: string, limit: number, page: number): Promise<PaginatedHolidayList> {
+  public listHolidays(country: string, limit: number, page: number): PaginatedHolidayList {
     if (!country) throw new HttpException(400, "Country is not defined.")
 
     const hd = new Holidays(country)
@@ -39,7 +39,7 @@ class HolidayService {
     return results
   }
 
-  public async showHoliday(country: string, holidayId: string): Promise<HolidayResult> {
+  public showHoliday(country: string, holidayId: string): HolidayResult {
     const hd = new Holidays(country)
     const holidayList: HolidayResult[] = hd.getHolidays()
 
