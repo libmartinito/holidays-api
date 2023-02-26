@@ -1,41 +1,41 @@
-import { Holiday } from '@prisma/client'
+import { Holiday } from '@prisma/client';
 
 export interface HolidayResult {
-  date: string,
-  start: Date,
-  end: Date,
-  name: string,
-  type: string,
-  substitute?: boolean,
-  note?: string
+    date: string;
+    start: Date;
+    end: Date;
+    name: string;
+    type: string;
+    substitute?: boolean;
+    note?: string;
 }
 
 export interface PaginatedHolidayList {
-  next?: {
-    page: number,
-    limit: number
-  },
-  prev?: {
-    page: number,
-    limit: number
-  },
-  current?: HolidayResult[]
+    next?: {
+        page: number;
+        limit: number;
+    };
+    prev?: {
+        page: number;
+        limit: number;
+    };
+    current?: HolidayResult[];
 }
 
 export interface HolidayData {
-  user_id: number,
-  country: string,
-  holiday_id: string
+    user_id: number;
+    country: string;
+    holiday_id: string;
 }
 
 export interface PaginatedUserHolidayList {
-  next?: {
-    page: number,
-    limit: number
-  },
-  prev?: {
-    page: number,
-    limit: number
-  },
-  current?: Holiday[]
+    next?: {
+        page: number;
+        limit: number;
+    };
+    prev?: {
+        page: number;
+        limit: number;
+    };
+    current?: Holiday[];
 }
