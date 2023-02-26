@@ -26,6 +26,7 @@ model Holiday {
   id         Int      @id @default(autoincrement())
   user       User     @relation(fields: [user_id], references: [id])
   user_id    Int
+  country    String
   holiday_id String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

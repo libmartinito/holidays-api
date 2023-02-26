@@ -1,4 +1,4 @@
-export interface Holiday {
+export interface HolidayResult {
   date: string,
   start: Date,
   end: Date,
@@ -17,5 +17,11 @@ export interface PaginatedHolidayList {
     page: number,
     limit: number
   },
-  current?: Holiday[]
+  current?: HolidayResult[]
+}
+
+export interface HolidayData {
+  user_id: number,
+  country: string,
+  holiday_id: string
 }
