@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
-import { SECRET_KEY } from '@/config';
-import { HttpException } from '@/exceptions/HttpException';
-import { DataStoredInToken } from '@/interfaces/auth.interface';
+import { SECRET_KEY } from '../config';
+import { HttpException } from '../exceptions/HttpException';
+import { DataStoredInToken } from '../interfaces/auth.interface';
 import { PrismaClient } from '@prisma/client';
 
 const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {

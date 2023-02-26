@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import HolidayService from '@/services/holiday.service';
-import { HolidayData } from '@/interfaces/holiday.interface';
+import HolidayService from '../services/holiday.service';
+import { HolidayData } from '../interfaces/holiday.interface';
 import { User } from '@prisma/client';
 
 class HolidayController {

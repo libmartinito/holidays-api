@@ -1,8 +1,8 @@
 import { PrismaClient, User } from '@prisma/client';
-import { SignUpData, LogInData, TokenData, DataStoredInToken } from '@/interfaces/auth.interface';
-import { HttpException } from '@/exceptions/HttpException';
+import { SignUpData, LogInData, TokenData, DataStoredInToken } from '../interfaces/auth.interface';
+import { HttpException } from '../exceptions/HttpException';
 import { hash, compare } from 'bcrypt';
-import { SECRET_KEY } from '@/config';
+import { SECRET_KEY } from '../config';
 import { sign } from 'jsonwebtoken';
 
 class AuthService {

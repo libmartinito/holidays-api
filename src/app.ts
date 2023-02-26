@@ -1,8 +1,8 @@
 import compression from 'compression';
 import express from 'express';
-import { NODE_ENV, PORT } from '@config';
-import { Routes } from '@interfaces/routes.interface';
-import errorMiddleware from '@middlewares/error.middleware';
+import { NODE_ENV, PORT } from './config';
+import { Routes } from './interfaces/routes.interface';
+import errorMiddleware from './middlewares/error.middleware';
 
 class App {
     public app: express.Application;
