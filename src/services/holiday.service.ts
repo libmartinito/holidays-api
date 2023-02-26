@@ -1,4 +1,4 @@
-import { HolidayResult, PaginatedHolidayList, HolidayData } from '@interfaces/holiday.interface'
+import { HolidayResult, PaginatedHolidayList, HolidayData, PaginatedUserHolidayList } from '@interfaces/holiday.interface'
 import { HttpException } from '@/exceptions/HttpException'
 import Holidays from 'date-holidays'
 import { PrismaClient, Holiday, User } from '@prisma/client'
@@ -71,6 +71,35 @@ class HolidayService {
     const { count } = await this.holidays.deleteMany({ where: { user_id: holidayData.user_id, country: holidayData.country, holiday_id: holidayData.holiday_id } })
 
     return count
+  }
+
+  public async listUserHolidays(user: User, limit: number, page: number, userId?: number): Promise<PaginatedUserHolidayList> {
+    const reqUserId = userId ? userId : user.id
+
+    const isAuthorized = this.isAuthorized(user, reqUserId)
+    if (!isAuthorized) throw new HttpException(403, "Access is forbidden.")
+
+    const totalUserHolidays: number = await this.holidays.count({ where: { user_id: reqUserId } })
+    const listStart = limit * (page - 1)
+    const listEnd = limit * page
+
+    const results: PaginatedUserHolidayList = {}
+
+    if (listEnd < totalUserHolidays && totalUserHolidays !== 0) {
+      results.next = {
+        page: page + 1,
+        limit
+      }
+    }
+    if (listStart > 0 && totalUserHolidays !== 0) {
+      results.prev = {
+        page: page - 1,
+        limit
+      }
+    }
+    results.current = await this.holidays.findMany({ where: { user_id: reqUserId }, take: limit, skip: listStart })
+
+    return results
   }
 
   public isAuthorized(user: User, userId: number): boolean {

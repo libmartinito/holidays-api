@@ -59,6 +59,21 @@ class HolidayController {
       next(error)
     }
   }
+
+  public listUserHolidays = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const user: User = res.locals.user
+      const userId = Number(req.query.user_id)
+      const limit = Number(req.query.limit)
+      const page = Number(req.query.page)
+
+      const userHolidays = await this.holidayService.listUserHolidays(user, limit, page, userId)
+
+      res.status(200).json(userHolidays)
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 export default HolidayController
