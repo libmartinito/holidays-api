@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { SignUpData, LogInData } from '@/interfaces/auth.interface';
+import { SignUpData, LogInData } from '../interfaces/auth.interface';
 import { User } from '@prisma/client';
-import AuthService from '@services/auth.service';
+import AuthService from '../services/auth.service';
 
 class AuthController {
     public authService = new AuthService();

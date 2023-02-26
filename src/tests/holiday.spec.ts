@@ -1,8 +1,8 @@
 import { describe, expect, test, vi, beforeEach, afterEach } from 'vitest';
 import request from 'supertest';
-import App from '@/app';
-import AuthRoute from '@/routes/auth.route';
-import HolidayRoute from '@/routes/holiday.route';
+import App from '../app';
+import AuthRoute from '../routes/auth.route';
+import HolidayRoute from '../routes/holiday.route';
 import bcrypt from 'bcrypt';
 
 let authRoute: AuthRoute, holidayRoute: HolidayRoute, app: App, users: any, holidays: any;

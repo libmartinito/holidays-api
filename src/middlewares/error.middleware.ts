@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { HttpException } from '@exceptions/HttpException';
+import { HttpException } from '../exceptions/HttpException';
 
 const errorMiddleware = (error: HttpException, req: Request, res: Response, next: NextFunction) => {
     try {

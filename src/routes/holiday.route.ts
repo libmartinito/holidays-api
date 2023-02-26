@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { Routes } from '@interfaces/routes.interface';
-import HolidayController from '@/controllers/holiday.controller';
-import authMiddleware from '@/middlewares/auth.middleware';
-import { holidayValidationRules } from '@/validators/holiday.validator';
-import validationMiddleware from '@/middlewares/validation.middleware';
+import { Routes } from '../interfaces/routes.interface';
+import HolidayController from '../controllers/holiday.controller';
+import authMiddleware from '../middlewares/auth.middleware';
+import { holidayValidationRules } from '../validators/holiday.validator';
+import validationMiddleware from '../middlewares/validation.middleware';
 
 class HolidayRoute implements Routes {
     public path = '/v1/';

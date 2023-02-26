@@ -1,7 +1,7 @@
 import { describe, expect, test, vi, beforeEach } from 'vitest';
 import request from 'supertest';
-import App from '@/app';
-import AuthRoute from '@/routes/auth.route';
+import App from '../app';
+import AuthRoute from '../routes/auth.route';
 import bcrypt from 'bcrypt';
 
 let authRoute: AuthRoute, users: any, app: App;

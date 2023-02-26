@@ -1,5 +1,5 @@
-import { HolidayResult, PaginatedHolidayList, HolidayData, PaginatedUserHolidayList } from '@interfaces/holiday.interface';
-import { HttpException } from '@/exceptions/HttpException';
+import { HolidayResult, PaginatedHolidayList, HolidayData, PaginatedUserHolidayList } from '../interfaces/holiday.interface';
+import { HttpException } from '../exceptions/HttpException';
 import Holidays from 'date-holidays';
 import { PrismaClient, Holiday, User } from '@prisma/client';
 
