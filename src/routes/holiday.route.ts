@@ -15,6 +15,7 @@ class HolidayRoute implements Routes {
     this.router.get(`${this.path}holidays/:country`, this.holidayController.listHolidays)
     this.router.get(`${this.path}holidays/:country/:holiday_id`, this.holidayController.showHoliday)
     this.router.post(`${this.path}save-holiday`, this.holidayController.saveHoliday)
+    this.router.delete(`${this.path}unsave-holiday`, this.holidayController.unsaveHoliday)
   }
 }
 

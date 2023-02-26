@@ -63,8 +63,18 @@ class HolidayService {
     return savedHoliday
   }
 
+  public async unsaveHoliday(authorization: string, holidayData: HolidayData): Promise<number> {
+    if (!holidayData) throw new HttpException(400, "Holiday data is empty")
+
+    const isAuthorized = await this.isAuthorized(authorization, holidayData.user_id)
+    if (!isAuthorized) throw new HttpException(403, "Access is forbidden")
+
+    const { count } = await this.holidays.deleteMany({ where: { user_id: holidayData.user_id, country: holidayData.country, holiday_id: holidayData.holiday_id } })
+    
+    return count
+  }
+
   public async isAuthorized(authorization: string, userId: number): Promise<boolean> {
-    if (!authorization) throw new HttpException(401, "User is not authenticated. Please login or signup.")
     const secretKey: string = SECRET_KEY as string
     const verificationResult = verify(authorization, secretKey) as DataStoredInToken
 
